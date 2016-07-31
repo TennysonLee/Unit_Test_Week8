@@ -64,11 +64,11 @@ class TestBatchURLToCSV(unittest.TestCase):
                     file_j = pd.read_csv(res[j])
                     self.assertNotEqual(file_i.equals(file_j), True)
 
-    def test_correct_filenames_generated(self): # Unit Test #6
+    def test_correct_filenames_returned(self): # Unit Test #6
         url_test = [valid_csv_url, invalid_url]
-        filename_test = ["valid_csv_url.csv", "invalid_url.csv"]
+        filename_test = ["valid_csv_url", "invalid_url"]
         res = batch_url_to_csv(url_test, filename_test)
-        self.assertEquals(res[0], filename_test[0])
+        self.assertEquals(res[0], "valid_csv_url.csv")
 
     def test_correct_number_filenames_generated(self): # Unit Test #7
         pass
