@@ -41,3 +41,7 @@ class TestBatchURLToCSV(unittest.TestCase):
         filenames = ["valid_csv_url", "valid_csv_url_v2", "invalid_url", "invalid_csv_url", "invalid_csv_url_v2"]
         res = batch_url_to_csv(urls, filenames)
         self.assertEqual(len(res), 2)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=20)
