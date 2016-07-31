@@ -48,10 +48,8 @@ def batch_url_to_csv(urls, filenames):
             path = url_to_csv(urls[i], filenames[i])
             # print path
             result_filenames.append(path[1])
-        except ValueError:
-            warnings.warn('A ValueError has occurred for %s. %s was not created.' % (urls[i], filenames[i]))
-        except TypeError:
-            warnings.warn('A TypeError has occurred for %s. %s was not created.' % (urls[i], filenames[i]))
+        except Exception:
+            warnings.warn('An invalid URL was found. File was not created.', RuntimeWarning)
     return result_filenames
 
 
