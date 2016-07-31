@@ -36,7 +36,7 @@ def url_to_csv(url, filename="csv_test"):
     # print filename
     # print data_from_url
     # print os.path.abspath(csv_name)
-    return [os.path.abspath(csv_name), csv_name]
+    return os.path.abspath(csv_name)
 
 
 def batch_url_to_csv(urls, filenames):
@@ -44,10 +44,16 @@ def batch_url_to_csv(urls, filenames):
     list of names in fnames. Returns a list of the filenames saved."""
     result_filenames = []
     for i in range(len(urls)):
+        for j in range(len(urls)):
+            if i == j:
+                pass
+            elif urls[i] == urls[j]:
+                raise AssertionError("Duplicate URL found in URL batch.")
+    for i in range(len(urls)):
         try:
             path = url_to_csv(urls[i], filenames[i])
             # print path
-            result_filenames.append(path[1])
+            result_filenames.append(path)
         except Exception:
             warnings.warn('An invalid URL was found. File was not created.', RuntimeWarning)
     return result_filenames
