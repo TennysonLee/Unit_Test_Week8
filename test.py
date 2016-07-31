@@ -68,8 +68,8 @@ class TestBatchURLToCSV(unittest.TestCase):
         res = batch_url_to_csv(urls, filenames)
         valid_filenames = ["valid_csv_url", "valid_csv_url_v2", "valid_csv_url_v3"]
         for i in range(len(res)):
-            print i
-            self.assertEquals(res[i], os.path.join(os.path.dirname(__file__), valid_filenames[i]))
+            # print i
+            self.assertEquals(res[i], valid_filenames[i])
 
 
 
