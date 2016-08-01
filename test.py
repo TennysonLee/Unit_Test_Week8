@@ -1,6 +1,6 @@
 import unittest
 
-import warnings, os, urllib2, pandas as pd
+import warnings, os, urllib2, pandas as pd, requests
 from requester import url_to_csv, batch_url_to_csv, url_to_df
 
 
@@ -20,17 +20,11 @@ class TestURLToCSV(unittest.TestCase):
 
     def test_type_error_v1(self): # Unit Test #1
         with self.assertRaises(TypeError):
-            url_to_csv(invalid_csv_url)
-
-
-    def test_type_error_v2(self): # Unit Test #1
-        with self.assertRaises(TypeError):
-            url_to_csv(invalid_csv_url_v2)
-
+            url_to_csv(invalid_csv_url, "type_Error")
 
     def test_value_error_v2(self): # Unit Test #2
         with self.assertRaises(ValueError):
-            url_to_csv(invalid_url)
+            url_to_csv(invalid_url, "value_error")
 
 
 class TestBatchURLToCSV(unittest.TestCase):
@@ -46,10 +40,12 @@ class TestBatchURLToCSV(unittest.TestCase):
             assert issubclass(w[-1].category, RuntimeWarning)
             assert "An invalid URL was found. File was not created." in str(w[-1].message)
 
-
-    def test_correct_number_of_files_created(self): # Unit Test #4
-        res = batch_url_to_csv(urls, filenames)
-        self.assertEqual(len(res), 3)
+    def test_valid_urls(self): # Unit Test #4
+        valid_urls = [valid_csv_url, valid_csv_url_v2, valid_csv_url_v3]
+        valid_filenames = ["valid_csv_url", "valid_csv_url_v2", "valid_csv_url_v3"]
+        res = batch_url_to_csv(valid_urls, valid_filenames)
+        for i in range(len(res)):
+            self.assertEquals(res[i], os.path.join(os.path.dirname(__file__), valid_filenames[i])+".csv")
 
     def test_unique_csv_contents(self): # Unit Test #5
         res = batch_url_to_csv(urls, filenames)
@@ -70,10 +66,31 @@ class TestBatchURLToCSV(unittest.TestCase):
         res = batch_url_to_csv(url_test, filename_test)
         self.assertEquals(res[0], os.path.join(os.path.dirname(__file__), "valid_csv_url.csv"))
 
-    def test_correct_number_filenames_generated(self): # Unit Test #7
-        pass
+    def test_correct_number_files_generated(self): # Unit Test #7
+        res = batch_url_to_csv(urls, filenames)
+        self.assertEquals(len(res), 3)
 
+    def test_duplicate_url_found(self): # Unit Test #8
+        with self.assertRaises(AssertionError):
+            url_test = [valid_csv_url, valid_csv_url]
+            filename_test = ["valid_csv_url", "valid_csv_url"]
+            batch_url_to_csv(url_test, filename_test)
 
+class TestURLToDF(unittest.TestCase):
+
+    def test_pd_dataframe_object_returned_valid_csv(self): # Unit Test #9
+        res = url_to_df(valid_csv_url)
+        self.assertTrue(type(res), pd.DataFrame())
+
+    def test_pd_dataframe_and_url_to_df_have_same_rows(self): # Unit Test #10
+        valid_url_with_no_header = "https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data"
+        url_to_df_data = url_to_df(valid_url_with_no_header)
+        url_to_df_rows = url_to_df_data.shape[0]
+
+        url_data = pd.read_csv(valid_url_with_no_header)
+        url_data_rows = url_data.shape[0]
+
+        self.assertEquals(url_to_df_rows, url_data_rows)
 
 if __name__ == '__main__':
-    unittest.main(verbosity=20)
+    unittest.main(verbosity=30)
