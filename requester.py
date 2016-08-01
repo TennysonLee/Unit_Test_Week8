@@ -23,7 +23,7 @@ def url_to_csv(url, filename="csv_test"):
             default is "csv_test".
 
     Returns:
-
+        filepath of the csv
     """
     try:
         data_from_url = pd.read_csv(url)
@@ -42,7 +42,15 @@ def url_to_csv(url, filename="csv_test"):
 
 def batch_url_to_csv(urls, filenames):
     """Takes a list of URLs to CSV files, downloads them, and saves them to files given by the
-    list of names in fnames. Returns a list of the filenames saved."""
+    list of names in fnames. Returns a list of the filenames saved.
+
+    Args:
+        urls (list of urls): could be valid or invalid urls
+        filenames (list of string names): Name of files created
+
+    Returns:
+        list of all valid URL file paths
+    """
     result_filenames = []
     for i in range(len(urls)):
         for j in range(len(urls)):
@@ -61,7 +69,14 @@ def batch_url_to_csv(urls, filenames):
 
 
 def url_to_df(url):
-    """Takes a URL to a CSV file and returns the contents of the URL as a Pandas DataFrame."""
+    """Takes a URL to a CSV file and returns the contents of the URL as a Pandas DataFrame.
+
+    Args:
+        url: valid url
+
+    Returns:
+        pandas dataframe
+    """
     dataframe = pd.read_csv(url)
     # print dataframe
     return dataframe
