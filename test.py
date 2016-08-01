@@ -1,6 +1,6 @@
 import unittest
 
-import warnings, os, urllib2, pandas as pd, requests
+import warnings, os, urllib2, pandas as pd
 from requester import url_to_csv, batch_url_to_csv, url_to_df
 
 

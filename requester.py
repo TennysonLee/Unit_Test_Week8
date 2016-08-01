@@ -75,7 +75,7 @@ if __name__ == "__main__":
     invalid_csv_url = "http://stackoverflow.com/questions/1393324/in-python-given-a-url-to-a-text-file-what-is-the-simplest-way-to-read-the-cont"
     invalid_csv_url_v2 = "https://archive.ics.uci.edu/ml/datasets/Adult"
 
-    url_to_csv(invalid_csv_url)
+    # url_to_csv(invalid_csv_url)
 
     batch_urls = [valid_csv_url, valid_csv_url_v2, invalid_url, invalid_csv_url, invalid_csv_url_v2]
     batch_filenames = ["valid_csv_url", "valid_csv_url_v2", "invalid_url", "invalid_csv_url", "invalid_csv_url_v2"]
