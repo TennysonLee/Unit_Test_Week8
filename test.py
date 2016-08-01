@@ -51,11 +51,7 @@ class TestBatchURLToCSV(unittest.TestCase):
         res = batch_url_to_csv(urls, filenames)
         for i in range(len(res)):
             for j in range(len(res)):
-                if i == j:
-                    # print i, j, "same"
-                    pass
-                else:
-                    # print i, j, "diff"
+                if i != j:
                     file_i = pd.read_csv(res[i])
                     file_j = pd.read_csv(res[j])
                     self.assertNotEqual(file_i.equals(file_j), True)
@@ -92,5 +88,5 @@ class TestURLToDF(unittest.TestCase):
 
         self.assertEquals(url_to_df_rows, url_data_rows)
 
-if __name__ == '__main__':
+if __name__=='__main__':
     unittest.main(verbosity=30)
